@@ -167,7 +167,7 @@ void print_menu(void)
     puts("| p - next chalenge           |");
     puts("| q - quit                    |");
     puts("| m - print this information  |");
-    puts("| s - sow your status         |");
+    puts("| s - show your status        |");
     puts("+-----------------------------+");
 }
  
@@ -185,7 +185,7 @@ int main(int argc, char * argv[])
     }
     else if(argc == 2)
     {
-        srand(*argv[1]);
+        srand(atoi(argv[1]));
     }
 
     /*Those are the valors that we will use*/
