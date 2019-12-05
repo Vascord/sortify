@@ -92,38 +92,32 @@ int rand_list(int level, int random_list[4])
  
 /* This will check if the player succeded in doing the list in the nice order */
  
-int game_conditions(int player_nums[20], int robot_nums[4],int points)
+int game_conditions(int player_nums[4], int robot_nums[4],int points)
 {
  
-    int cont;
-    int retry = 0;
+    int cont = 0;
     int x,y;
 
     /*This while will repeat over and over until the player put the same number as in the robot list*/
     
-    while(cont < 4)
+    scanf("%d %d %d %d", &player_nums[0], &player_nums[1], &player_nums[2], &player_nums[3]);
+    for (x = 0; x < 4; x++)
     {
-        cont = 0;
-        if (retry == 1)
+        for (y = 0; y < 4; y++)
         {
-            puts(MSG_SORT2);
-        }
-        scanf(" %d%*c %d%*c %d%*c %d%*c", &player_nums[0], &player_nums[1], &player_nums[2], &player_nums[3]);
-        for (x = 0; x < 4; x++)
-        {
-            for (y = 0; y < 4; y++)
+            if (robot_nums[x] == player_nums[y])
             {
-                if (robot_nums[x] == player_nums[y])
-                {
-                    cont++;
-                    break;
-                }
+                cont++;
+                break;
             }
         }
-        retry = 1;
     }
 
     /*This will see if the player succeded in his duty*/
+    if (cont < 4)
+    {
+        puts(MSG_WRONG);
+    }
 
     if (cont == 4)
     {
@@ -173,7 +167,7 @@ void print_menu(void)
     puts("| p - next chalenge           |");
     puts("| q - quit                    |");
     puts("| m - print this information  |");
-    puts("| s - show your status        |");
+    puts("| s - sow your status         |");
     puts("+-----------------------------+");
 }
  
@@ -205,17 +199,16 @@ int main(int argc, char * argv[])
 
     while(command != 'q' && level != 6 && plays != 30)
     {
-
-        scanf(" %c", &command);
+        scanf("%c", &command);
 
         switch(command)
         {
  
-            case'p':
+            case 'p':
             {
                 /*This part is where the game starts, putting player and robot list blank*/
 
-                int player_nums[20];
+                int player_nums[4] = {0, 0, 0, 0};
                 int robot_nums[4] = {0, 0, 0, 0};
                 puts(MSG_SORT);
                 robot_nums[4] = rand_list(level, robot_nums);
@@ -228,6 +221,7 @@ int main(int argc, char * argv[])
                 if(plays == 30)
                 {
                     puts(MSG_MAX);
+                    print_status(level, points, plays);
                     puts(MSG_OVER);
                 }
 
@@ -241,21 +235,25 @@ int main(int argc, char * argv[])
                 }
                 break;
             }
-            case'm':
+            case 'm':
             {
                 print_menu();
                 break;
             }    
-            case's':
+            case 's':
             {
                 print_status(level, points, plays);
                 break;
             }
-            case'q':
+            case 'q':
             {
+                print_status(level, points, plays);
                 puts(MSG_BYE);
                 break;
             }
+            case 10:
+            case 13:
+                break;
             default :
             {
                 puts(MSG_UNKNOWN);
