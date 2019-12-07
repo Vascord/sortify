@@ -96,23 +96,36 @@ int game_conditions(int player_nums[4], int robot_nums[4],int points)
 {
  
     int cont = 0;
-    int x,y;
+    int x,y,retry;
 
-    /*This while will repeat over and over until the player put the same number as in the robot list*/
-    
-    scanf("%d %d %d %d", &player_nums[0], &player_nums[1], &player_nums[2], &player_nums[3]);
-    for (x = 0; x < 4; x++)
+    fflush(stdin);
+
+    /*This while will repeat over and over until the player put the same number as in the robot list*/        
+    for (retry = 0; retry != 1;)
     {
-        for (y = 0; y < 4; y++)
+        scanf("%d %d %d %d", &player_nums[0], &player_nums[1], &player_nums[2], &player_nums[3]);
+
+        for (x = 0; x < 4; x++)
         {
-            if (robot_nums[x] == player_nums[y])
+            for (y = 0; y < 4; y++)
             {
-                cont++;
-                break;
+                if (robot_nums[x] == player_nums[y])
+                {
+                    cont++;
+                    break;
+                }
             }
         }
+        if (cont == 4)
+        {
+            retry = 1;
+        }
+        else 
+        {
+            puts(MSG_SORT2);
+        }
+        fflush(stdin);
     }
-
     /*This will see if the player succeded in his duty*/
     if (cont < 4)
     {
@@ -128,7 +141,7 @@ int game_conditions(int player_nums[4], int robot_nums[4],int points)
             {
                 puts(MSG_WRONG);
                 return points;
- 
+
             }
             else if (player_nums[x-1] <= player_nums[x])
             {
@@ -143,7 +156,9 @@ int game_conditions(int player_nums[4], int robot_nums[4],int points)
             return points;
         }
     }
- 
+
+    fflush(stdin);
+
     return 0;
 }
  
@@ -253,6 +268,7 @@ int main(int argc, char * argv[])
             }
             case 10:
             case 13:
+            case 32:
                 break;
             default :
             {
